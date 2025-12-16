@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Out-of-the-Box Skill Concepts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- GLOBAL SETUP --- */
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+        
+        /* Nav */
+        nav { position: fixed; top: 0; left: 0; width: 100%; background: rgba(20,20,20,0.9); z-index: 999; padding: 10px; display: flex; gap: 10px; overflow-x: auto; border-bottom: 1px solid #333; }
+        nav a { color: #888; text-decoration: none; padding: 8px 15px; border: 1px solid #444; border-radius: 20px; white-space: nowrap; font-size: 0.8rem; transition: 0.3s; }
+        nav a:hover { background: #27c93f; color: black; border-color: #27c93f; }
+
+        section { min-height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 1px solid #222; overflow: hidden; }
+        .title-badge { position: absolute; top: 80px; left: 20px; color: rgba(255,255,255,0.2); font-size: 1.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* =========================================================
+           1. THE PERIODIC TABLE OF DEV (Scientific & Smart)
+           ========================================================= */
+        #s1 { background: #090909; }
+        .periodic-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; max-width: 800px; padding: 20px; }
+        .element {
+            width: 100px; height: 100px; border: 2px solid #333; position: relative;
+            background: #111; padding: 5px; cursor: pointer; transition: 0.3s;
+        }
+        .element:hover { background: #27c93f; border-color: #27c93f; transform: scale(1.1); z-index: 10; box-shadow: 0 0 30px rgba(39,201,63,0.3); }
+        .element:hover * { color: #000; }
+        .number { font-size: 0.7rem; color: #666; position: absolute; top: 5px; left: 5px; }
+        .symbol { font-size: 2.2rem; font-weight: bold; text-align: center; margin-top: 15px; display: block; color: #fff; }
+        .name { font-size: 0.7rem; text-align: center; display: block; margin-top: 5px; color: #aaa; text-transform: uppercase; }
+
+        /* =========================================================
+           2. THE CIRCUIT BOARD (Engineering Flow)
+           ========================================================= */
+        #s2 { background: #050505; }
+        .circuit-container { position: relative; width: 600px; height: 400px; }
+        .chip {
+            position: absolute; width: 100px; height: 100px; background: #151515; border: 2px solid #333;
+            display: flex; justify-content: center; align-items: center; z-index: 2; border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.8); transition: 0.3s;
+        }
+        .chip:hover { border-color: #00f0ff; box-shadow: 0 0 20px rgba(0,240,255,0.4); }
+        .chip i { font-size: 2.5rem; color: #555; }
+        .chip:hover i { color: #00f0ff; }
+        
+        /* Positions */
+        .c-center { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; border-color: #27c93f; }
+        .c-center i { color: #27c93f; }
+        .c-1 { top: 20px; left: 50px; } .c-2 { top: 20px; right: 50px; }
+        .c-3 { bottom: 20px; left: 50px; } .c-4 { bottom: 20px; right: 50px; }
+
+        /* Traces (SVG lines) */
+        svg.traces { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .trace-path { fill: none; stroke: #222; stroke-width: 2; }
+        .trace-active { fill: none; stroke: #27c93f; stroke-width: 2; stroke-dasharray: 200; stroke-dashoffset: 200; animation: dash 2s linear infinite; }
+        @keyframes dash { to { stroke-dashoffset: 0; } }
+
+        /* =========================================================
+           3. THE VS CODE AUTOCOMPLETE (The "Real Coder")
+           ========================================================= */
+        #s3 { background: #1e1e1e; font-family: 'Consolas', 'Courier New', monospace; justify-content: flex-start; padding-top: 150px; }
+        .editor-window { width: 600px; background: #252526; border: 1px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.5); padding: 20px; border-radius: 5px; position: relative; }
+        .line-num { color: #858585; margin-right: 15px; user-select: none; }
+        .code-text { color: #d4d4d4; }
+        .keyword { color: #c586c0; }
+        .variable { color: #9cdcfe; }
+        .string { color: #ce9178; }
+        .cursor { border-left: 2px solid #fff; animation: blink 1s infinite; }
+        
+        .autocomplete-box {
+            position: absolute; top: 50px; left: 180px; width: 250px; background: #252526; border: 1px solid #454545;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; z-index: 10;
+        }
+        .ac-item { padding: 8px 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: #ccc; }
+        .ac-item:hover { background: #094771; color: white; }
+        .ac-icon { width: 15px; height: 15px; background: #27c93f; font-size: 10px; display: flex; justify-content: center; align-items: center; color: black; border-radius: 2px; font-weight: bold; }
+
+        /* =========================================================
+           4. THE SOLAR SYSTEM (Orbiting)
+           ========================================================= */
+        #s4 { background: radial-gradient(circle at center, #1a1a1a, #000); }
+        .solar-system { position: relative; width: 500px; height: 500px; display: flex; justify-content: center; align-items: center; }
+        .sun { width: 80px; height: 80px; background: #fff; border-radius: 50%; box-shadow: 0 0 50px #fff; z-index: 10; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #000; }
+        
+        .orbit { position: absolute; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; animation: spin 10s linear infinite; }
+        .orbit-1 { width: 200px; height: 200px; animation-duration: 10s; }
+        .orbit-2 { width: 350px; height: 350px; animation-duration: 15s; direction: reverse; }
+        .orbit-3 { width: 500px; height: 500px; animation-duration: 20s; }
+        
+        .planet { width: 40px; height: 40px; background: #000; border: 1px solid #27c93f; border-radius: 50%; position: absolute; top: 50%; left: -20px; display: flex; justify-content: center; align-items: center; color: #27c93f; box-shadow: 0 0 10px rgba(39,201,63,0.5); }
+        /* Fix rotation so icons stay upright */
+        .planet i { animation: spin 10s linear infinite reverse; } 
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* =========================================================
+           5. THE FLASHLIGHT SCANNER (Interactive Reveal)
+           ========================================================= */
+        #s5 { background: #000; cursor: none; }
+        .hidden-content {
+            position: relative; width: 100%; height: 100%; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 50px;
+            background: #000;
+        }
+        /* The trick: A mask layer */
+        #flashlight {
+            position: absolute; width: 200px; height: 200px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(39, 201, 63, 0.2) 0%, transparent 70%);
+            border: 2px solid rgba(39, 201, 63, 0.5);
+            pointer-events: none; transform: translate(-50%, -50%); z-index: 20;
+            box-shadow: 0 0 50px rgba(39, 201, 63, 0.2);
+            mix-blend-mode: screen;
+        }
+        .dark-skill { color: #111; font-size: 4rem; font-weight: 900; transition: 0.1s; user-select: none; }
+        .dark-skill:hover { color: #27c93f; text-shadow: 0 0 20px #27c93f; }
+
+        /* =========================================================
+           6. THE MATRIX RAIN (Hacker Style)
+           ========================================================= */
+        #s6 { background: #000; }
+        canvas#matrix { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .matrix-overlay { position: absolute; z-index: 2; background: rgba(0,0,0,0.7); padding: 30px; border: 1px solid #0f0; border-radius: 10px; backdrop-filter: blur(5px); }
+        .matrix-overlay h3 { color: #0f0; font-family: monospace; margin: 0 0 20px 0; }
+        .matrix-list div { font-family: monospace; color: #fff; margin: 5px 0; border-bottom: 1px dashed #333; padding-bottom: 5px; }
+        .matrix-list div span { color: #0f0; float: right; }
+
+        /* =========================================================
+           7. THE EXPANDING ACCORDION (Clean UI)
+           ========================================================= */
+        #s7 { background: #111; }
+        .accordion-container { display: flex; width: 80%; height: 400px; gap: 10px; }
+        .panel {
+            flex: 1; background: #222; border-radius: 20px; position: relative; overflow: hidden;
+            transition: flex 0.5s cubic-bezier(0.075, 0.82, 0.165, 1); cursor: pointer;
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; border: 1px solid #333;
+        }
+        .panel:hover { flex: 5; background: #222; border-color: #27c93f; }
+        .panel h3 { font-size: 1.5rem; margin: 0; transform: rotate(-90deg); transform-origin: left bottom; white-space: nowrap; position: absolute; bottom: 40px; left: 40px; transition: 0.3s; }
+        .panel:hover h3 { transform: rotate(0); position: relative; bottom: 0; left: 0; color: #27c93f; margin-bottom: 10px; }
+        .panel i { font-size: 3rem; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: #444; transition: 0.3s; }
+        .panel:hover i { color: #fff; font-size: 5rem; top: 50%; transform: translate(-50%, -50%); opacity: 0.2; }
+        .panel p { opacity: 0; transition: 0.5s; font-size: 0.9rem; color: #ccc; }
+        .panel:hover p { opacity: 1; transition-delay: 0.2s; }
+
+        /* =========================================================
+           8. THE 3D CUBE (Geometry)
+           ========================================================= */
+        #s8 { perspective: 1000px; background: #050505; }
+        .cube-wrap { width: 200px; height: 200px; position: relative; transform-style: preserve-3d; animation: rotateCube 15s infinite linear; }
+        .face {
+            position: absolute; width: 200px; height: 200px; border: 2px solid #27c93f; background: rgba(39, 201, 63, 0.1);
+            display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 1.5rem; color: #fff; text-transform: uppercase; font-weight: bold;
+            box-shadow: 0 0 20px rgba(39,201,63,0.2);
+        }
+        .face i { font-size: 3rem; margin-bottom: 10px; }
+        .f1 { transform: rotateY(0deg) translateZ(100px); }
+        .f2 { transform: rotateY(90deg) translateZ(100px); }
+        .f3 { transform: rotateY(180deg) translateZ(100px); }
+        .f4 { transform: rotateY(-90deg) translateZ(100px); }
+        .f5 { transform: rotateX(90deg) translateZ(100px); }
+        .f6 { transform: rotateX(-90deg) translateZ(100px); }
+        
+        .cube-wrap:hover { animation-play-state: paused; }
+        @keyframes rotateCube { from { transform: rotateX(0deg) rotateY(0deg); } to { transform: rotateX(360deg) rotateY(360deg); } }
+
+        /* =========================================================
+           9. THE FLOATING CONSTELLATION (Canvas Connected)
+           ========================================================= */
+        #s9 { background: #000; }
+        canvas#constellation { position: absolute; top: 0; left: 0; }
+        .constellation-overlay { pointer-events: none; z-index: 2; text-align: center; }
+        .constellation-overlay h2 { font-size: 3rem; margin-bottom: 10px; }
+        .constellation-overlay p { color: #888; }
+
+        /* =========================================================
+           10. THE CODE STREAM (Modern Waterfall)
+           ========================================================= */
+        #s10 { background: #0d0d0d; display: flex; flex-direction: row; gap: 20px; padding: 0 50px; }
+        .stream-col { flex: 1; display: flex; flex-direction: column; gap: 20px; animation: slideUp 20s linear infinite; }
+        .stream-col:nth-child(even) { animation-direction: reverse; margin-top: -100px; }
+        .skill-brick {
+            background: #1a1a1a; padding: 30px; border-radius: 10px; text-align: center;
+            border-bottom: 3px solid #333; transition: 0.3s;
+        }
+        .skill-brick:hover { background: #27c93f; color: #000; border-color: #fff; transform: scale(1.05); }
+        .skill-brick i { font-size: 2rem; margin-bottom: 10px; display: block; }
+        
+        @keyframes slideUp { 0% { transform: translateY(0); } 50% { transform: translateY(-50px); } 100% { transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#s1">1. Periodic Table</a>
+        <a href="#s2">2. Circuit Board</a>
+        <a href="#s3">3. VS Code</a>
+        <a href="#s4">4. Solar System</a>
+        <a href="#s5">5. Flashlight</a>
+        <a href="#s6">6. Matrix</a>
+        <a href="#s7">7. Accordion</a>
+        <a href="#s8">8. 3D Cube</a>
+        <a href="#s9">9. Constellation</a>
+        <a href="#s10">10. Stream</a>
+    </nav>
+
+    <section id="s1">
+        <div class="title-badge">The Elements of Me</div>
+        <div class="periodic-grid">
+            <div class="element"><span class="number">01</span><span class="symbol">Ph</span><span class="name">PHP</span></div>
+            <div class="element"><span class="number">02</span><span class="symbol">Js</span><span class="name">JavaScript</span></div>
+            <div class="element"><span class="number">03</span><span class="symbol">Re</span><span class="name">React</span></div>
+            <div class="element"><span class="number">04</span><span class="symbol">Sq</span><span class="name">SQL</span></div>
+            <div class="element"><span class="number">05</span><span class="symbol">La</span><span class="name">Laravel</span></div>
+            <div class="element"><span class="number">06</span><span class="symbol">Gi</span><span class="name">Git</span></div>
+            <div class="element"><span class="number">07</span><span class="symbol">Aw</span><span class="name">AWS</span></div>
+            <div class="element"><span class="number">08</span><span class="symbol">Do</span><span class="name">Docker</span></div>
+        </div>
+    </section>
+
+    <section id="s2">
+        <div class="title-badge">Engineering Flow</div>
+        <div class="circuit-container">
+            <svg class="traces">
+                <path class="trace-path trace-active" d="M100,70 L300,200" />
+                <path class="trace-path trace-active" d="M500,70 L300,200" />
+                <path class="trace-path trace-active" d="M100,330 L300,200" />
+                <path class="trace-path trace-active" d="M500,330 L300,200" />
+            </svg>
+            <div class="chip c-center"><i class="fas fa-brain"></i></div>
+            <div class="chip c-1"><i class="fab fa-php"></i></div>
+            <div class="chip c-2"><i class="fab fa-js"></i></div>
+            <div class="chip c-3"><i class="fas fa-database"></i></div>
+            <div class="chip c-4"><i class="fab fa-react"></i></div>
+        </div>
+    </section>
+
+    <section id="s3">
+        <div class="title-badge" style="top:20px">The Coder</div>
+        <div class="editor-window">
+            <div><span class="line-num">1</span><span class="keyword">import</span> <span class="variable">Harshil</span> <span class="keyword">from</span> <span class="string">'./developer'</span>;</div>
+            <div><span class="line-num">2</span></div>
+            <div><span class="line-num">3</span><span class="keyword">const</span> <span class="variable">skills</span> = [</div>
+            <div><span class="line-num">4</span>&nbsp;&nbsp;<span class="string">'PHP'</span>,</div>
+            <div><span class="line-num">5</span>&nbsp;&nbsp;<span class="string">'SQL'</span>,</div>
+            <div><span class="line-num">6</span>&nbsp;&nbsp;<span class="cursor"></span></div>
+            <div><span class="line-num">7</span>];</div>
+
+            <div class="autocomplete-box">
+                <div class="ac-item"><span class="ac-icon">ABC</span> Laravel</div>
+                <div class="ac-item" style="background:#094771; color:white"><span class="ac-icon">ABC</span> React.js <span style="margin-left:auto; font-size:0.8rem; color:#aaa">Library</span></div>
+                <div class="ac-item"><span class="ac-icon">ABC</span> Docker</div>
+                <div class="ac-item"><span class="ac-icon">ABC</span> AWS_Cloud</div>
+                <div class="ac-item"><span class="ac-icon">ABC</span> GSAP_Animation</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="s4">
+        <div class="title-badge">Core Orbit</div>
+        <div class="solar-system">
+            <div class="sun">ME</div>
+            
+            <div class="orbit orbit-1">
+                <div class="planet"><i class="fab fa-html5"></i></div>
+            </div>
+            
+            <div class="orbit orbit-2">
+                <div class="planet" style="top:0; left:50%"><i class="fab fa-php"></i></div>
+                <div class="planet" style="top:100%; left:50%"><i class="fab fa-js"></i></div>
+            </div>
+
+            <div class="orbit orbit-3">
+                <div class="planet" style="top:50%; left:100%"><i class="fab fa-react"></i></div>
+                <div class="planet" style="top:0%; left:20%"><i class="fas fa-database"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="s5">
+        <div class="title-badge">Search for Talent</div>
+        <div id="flashlight"></div>
+        <div class="hidden-content">
+            <div class="dark-skill">PHP</div>
+            <div class="dark-skill">Laravel</div>
+            <div class="dark-skill">JavaScript</div>
+            <div class="dark-skill">React</div>
+            <div class="dark-skill">MySQL</div>
+            <div class="dark-skill">PostgreSQL</div>
+            <div class="dark-skill">Redis</div>
+            <div class="dark-skill">Docker</div>
+            <div class="dark-skill">Linux</div>
+            <div class="dark-skill">Git</div>
+            <div class="dark-skill">AWS</div>
+            <div class="dark-skill">Python</div>
+        </div>
+        <script>
+            const s5 = document.getElementById('s5');
+            const flash = document.getElementById('flashlight');
+            s5.addEventListener('mousemove', (e) => {
+                const rect = s5.getBoundingClientRect();
+                flash.style.left = (e.clientX - rect.left) + 'px';
+                flash.style.top = (e.clientY - rect.top) + 'px';
+            });
+        </script>
+    </section>
+
+    <section id="s6">
+        <canvas id="matrix"></canvas>
+        <div class="matrix-overlay">
+            <h3>System.Skills_Check()</h3>
+            <div class="matrix-list">
+                <div>Backend Logic <span>[98%]</span></div>
+                <div>Database Arch <span>[95%]</span></div>
+                <div>Frontend UI <span>[90%]</span></div>
+                <div>API Integration <span>[100%]</span></div>
+            </div>
+        </div>
+        <script>
+            const canvas = document.getElementById('matrix');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const katakana = 'PHP JAVASCRIPT REACT SQL LARAVEL DOCKER GIT AWS';
+            const letters = katakana.split(' ');
+            const fontSize = 16;
+            const columns = canvas.width/fontSize;
+            const drops = [];
+            for(let x=0; x<columns; x++) drops[x] = 1;
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0F0';
+                ctx.font = fontSize + 'px monospace';
+                for(let i=0; i<drops.length; i++) {
+                    const text = letters[Math.floor(Math.random()*letters.length)];
+                    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+                    if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                }
+            }
+            setInterval(drawMatrix, 50);
+        </script>
+    </section>
+
+    <section id="s7">
+        <div class="title-badge">The Stack</div>
+        <div class="accordion-container">
+            <div class="panel">
+                <h3>Backend</h3>
+                <i class="fab fa-php"></i>
+                <p>Architecting robust server-side logic using PHP, Laravel, and Node.js. Focused on security and speed.</p>
+            </div>
+            <div class="panel">
+                <h3>Frontend</h3>
+                <i class="fab fa-js"></i>
+                <p>Creating immersive UI with React, GSAP, and Modern JavaScript. Pixel perfect and responsive.</p>
+            </div>
+            <div class="panel">
+                <h3>Database</h3>
+                <i class="fas fa-database"></i>
+                <p>Complex query optimization in MySQL and PostgreSQL. Data modeling for scale.</p>
+            </div>
+            <div class="panel">
+                <h3>DevOps</h3>
+                <i class="fab fa-docker"></i>
+                <p>CI/CD pipelines, Docker containerization, and AWS cloud infrastructure management.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="s8">
+        <div class="title-badge">Multi-Dimensional</div>
+        <div class="cube-wrap">
+            <div class="face f1"><i class="fab fa-php"></i>PHP</div>
+            <div class="face f2"><i class="fab fa-js"></i>JS</div>
+            <div class="face f3"><i class="fab fa-react"></i>React</div>
+            <div class="face f4"><i class="fas fa-database"></i>SQL</div>
+            <div class="face f5"><i class="fab fa-aws"></i>AWS</div>
+            <div class="face f6"><i class="fab fa-git"></i>Git</div>
+        </div>
+    </section>
+
+    <section id="s9">
+        <div class="title-badge">Connecting Dots</div>
+        <canvas id="constellation"></canvas>
+        <div class="constellation-overlay">
+            <h2>The Network</h2>
+            <p>Hover to connect the nodes</p>
+        </div>
+        <script>
+            const cvs9 = document.getElementById('constellation');
+            const ctx9 = cvs9.getContext('2d');
+            cvs9.width = window.innerWidth;
+            cvs9.height = window.innerHeight;
+            let stars = [];
+            const numStars = 20;
+            const skillNames = ["PHP", "JS", "SQL", "React", "Node", "Git", "AWS", "CSS", "HTML", "API"];
+            
+            for(let i=0; i<numStars; i++){
+                stars.push({
+                    x: Math.random()*cvs9.width, y: Math.random()*cvs9.height,
+                    vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5,
+                    name: skillNames[i % skillNames.length]
+                });
+            }
+            function animateConstellation(){
+                ctx9.clearRect(0,0,cvs9.width,cvs9.height);
+                ctx9.fillStyle = "white";
+                ctx9.strokeStyle = "rgba(39, 201, 63, 0.3)";
+                
+                stars.forEach((star, index) => {
+                    star.x += star.vx; star.y += star.vy;
+                    if(star.x < 0 || star.x > cvs9.width) star.vx *= -1;
+                    if(star.y < 0 || star.y > cvs9.height) star.vy *= -1;
+                    
+                    ctx9.beginPath();
+                    ctx9.arc(star.x, star.y, 3, 0, Math.PI*2);
+                    ctx9.fill();
+                    ctx9.fillText(star.name, star.x + 10, star.y);
+
+                    // Connect
+                    stars.forEach((star2, index2) => {
+                        if(index !== index2){
+                            let dist = Math.hypot(star.x - star2.x, star.y - star2.y);
+                            if(dist < 150){
+                                ctx9.beginPath();
+                                ctx9.moveTo(star.x, star.y);
+                                ctx9.lineTo(star2.x, star2.y);
+                                ctx9.stroke();
+                            }
+                        }
+                    });
+                });
+                requestAnimationFrame(animateConstellation);
+            }
+            animateConstellation();
+        </script>
+    </section>
+
+    <section id="s10">
+        <div class="title-badge">Flow State</div>
+        <div class="stream-col">
+            <div class="skill-brick"><i class="fab fa-php"></i>PHP</div>
+            <div class="skill-brick"><i class="fab fa-laravel"></i>Laravel</div>
+            <div class="skill-brick"><i class="fas fa-database"></i>MySQL</div>
+            <div class="skill-brick"><i class="fab fa-python"></i>Python</div>
+        </div>
+        <div class="stream-col">
+            <div class="skill-brick"><i class="fab fa-js"></i>JavaScript</div>
+            <div class="skill-brick"><i class="fab fa-react"></i>React</div>
+            <div class="skill-brick"><i class="fab fa-vuejs"></i>Vue</div>
+            <div class="skill-brick"><i class="fab fa-node"></i>Node.js</div>
+        </div>
+        <div class="stream-col">
+            <div class="skill-brick"><i class="fab fa-docker"></i>Docker</div>
+            <div class="skill-brick"><i class="fab fa-aws"></i>AWS</div>
+            <div class="skill-brick"><i class="fab fa-git-alt"></i>Git</div>
+            <div class="skill-brick"><i class="fab fa-linux"></i>Linux</div>
+        </div>
+    </section>
+
+</body>
+</html>
