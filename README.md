@@ -1,38 +1,44 @@
-# Creative Web Concepts 🧪
+<div align="center">
 
-> **Experimented & Built by [Harshil Chavda](https://github.com/Harshil-Chavda)**
+# Creative Web Concepts
 
-A playground of 10 experimental, high-concept web UI designs. This repository moves beyond standard layouts to explore metaphors like chemistry, astronomy, and electronics in web design.
+**Ten experimental interfaces inspired by science, engineering, and developer tools.**
 
-## 🧪 The Experiments
-1.  **The Periodic Table:** Developer skills arranged as chemical elements.
-2.  **Circuit Board:** An engineering-themed layout with animated traces.
-3.  **VS Code IDE:** A portfolio section disguised as a code editor with autocomplete.
-4.  **Solar System:** Navigation menu orbiting a central core.
-5.  **Flashlight Reveal:** Hidden content revealed by a user-controlled light source.
-6.  **Matrix Rain:** Canvas-based digital rain effect.
-7.  **Expanding Accordion:** Clean, vertical slice interaction.
-8.  **3D Cube:** A rotating CSS cube showcasing multi-dimensional skills.
-9.  **Constellation:** Interactive particle network on canvas.
-10. **Code Stream:** A vertical "waterfall" of technical keywords.
+[![HTML](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)](https://developer.mozilla.org/docs/Web/HTML)
+[![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)](https://developer.mozilla.org/docs/Web/CSS)
+[![Canvas](https://img.shields.io/badge/Canvas_API-0891B2?style=flat-square)](https://developer.mozilla.org/docs/Web/API/Canvas_API)
 
-## 🛠 Tech Stack
-* **Core:** HTML5, CSS3 (Grid, Flexbox, 3D Transforms).
-* **Canvas:** Used for Matrix Rain and Constellation effects.
-* **JavaScript:** Minimal vanilla JS for interaction logic.
+[Explore the live gallery](https://harshil-chavda.github.io/creative-web-concepts/web-concepts.html)
 
-## 🚀 Usage
-1.  Clone the repository:
-    ```bash
-    git clone [https://github.com/Harshil-Chavda/creative-web-concepts.git](https://github.com/Harshil-Chavda/creative-web-concepts.git)
-    ```
-2.  Open `web-concepts.html` to explore the gallery.
+</div>
 
----
+## Experiments
 
-## 🌐 Connect
-* **GitHub:** [Harshil-Chavda](https://github.com/Harshil-Chavda)
-* **LinkedIn:** [Harshil Chavda](https://www.linkedin.com/in/harshil-chavda-webdev/)
-* **Instagram:** [@harshil_chavda__](https://www.instagram.com/harshil_chavda__/)
+1. Developer skills represented as a periodic table
+2. Animated circuit-board layout
+3. Portfolio section presented as a code editor
+4. Solar-system navigation
+5. Pointer-controlled flashlight reveal
+6. Canvas-based matrix rain
+7. Expanding vertical accordion
+8. Rotating three-dimensional cube
+9. Interactive canvas constellation
+10. Streaming technical-keyword display
 
-*© 2025 Harshil Chavda. All Rights Reserved.*
+## Run locally
+
+```bash
+git clone https://github.com/Harshil-Chavda/creative-web-concepts.git
+cd creative-web-concepts
+```
+
+Open `web-concepts.html` directly in a modern browser. No dependencies or build process are required.
+
+## Purpose
+
+This repository is a design laboratory rather than a production component library. Each concept demonstrates an interaction or visual metaphor that can be extracted, simplified, and adapted for a real interface.
+
+## Author
+
+Designed and developed by [Harshil Chavda](https://github.com/Harshil-Chavda).
+
